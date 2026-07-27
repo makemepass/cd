@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <string.h>
+int main() {
+    char op[3];
+    printf("Enter an operator: ");
+    scanf("%2s", op);
+    if (!strcmp(op, "+") || !strcmp(op, "-") || !strcmp(op, "*") ||
+        !strcmp(op, "/") || !strcmp(op, "%") || !strcmp(op, "=") ||
+        !strcmp(op, "==") || !strcmp(op, "!=") || !strcmp(op, ">") ||
+        !strcmp(op, "<") || !strcmp(op, ">=") || !strcmp(op, "<=") ||
+        !strcmp(op, "&&") || !strcmp(op, "||") || !strcmp(op, "!") ||
+        !strcmp(op, "++") || !strcmp(op, "--")) {
+        printf("%s is a valid C operator.\n", op);
+    } else {
+        printf("%s is not a valid C operator.\n", op);
+    }
+    return 0;
+}
