@@ -1,0 +1,22 @@
+//Lex program to count no of lines and words in text//
+
+%{
+#include <stdio.h>
+int lines = 0;
+int words = 0;
+%}
+%%
+
+\n              { lines++; }
+[ \t]+          ;
+[^ \t\n~]+      { words++; }
+~               { return 0; }
+%%
+int main()
+{
+    printf("Enter the text terminated with ~:\n");
+    yylex();
+    printf("\nNumber of lines = %d\n", lines);
+    printf("Number of words = %d\n", words);
+    return 0;
+}
