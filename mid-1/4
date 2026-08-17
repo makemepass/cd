@@ -1,0 +1,21 @@
+//Lex program to identify C operators//
+
+%{
+#include <stdio.h>
+%}
+
+%%
+"+"|"-"|"*"|"/"|"%" {
+    printf("Arithmetic operator");
+}
+
+"&"|"|"|"^"|"<<"|">>"|"~" {
+    printf("logical operator");
+}
+
+%%
+
+void main()
+{
+    yylex();
+}
