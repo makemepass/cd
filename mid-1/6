@@ -1,0 +1,22 @@
+//Lex program to identify single and multiple line comments//
+
+%{
+#include <stdio.h>
+%}
+
+%%
+
+"//".* {
+    printf("single line comment: %s", yytext);
+}
+
+"/\*"([^*]|\*+[^*/])*\*+"/" {
+    printf("multi line comment: %s\n", yytext);
+}
+
+%%
+
+void main()
+{
+    yylex();
+}
