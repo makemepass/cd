@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+char str[100];
+int pos;
+int A()
+{
+    int save = pos;
+    if (str[pos] == 'a' && str[pos + 1] == 'b')
+    {
+        pos = pos + 2;
+        return 1;
+    }
+    pos = save;
+    if (str[pos] == 'a')
+    {
+        pos++;
+        return 1;
+    }
+    pos = save;
+    return 0;
+}
+int S()
+{
+    int save = pos;
+    if (str[pos] == 'c')
+    {
+        pos++;
+        if (A())
+        {
+            if (str[pos] == 'd')
+            {
+                pos++;
+                return 1;
+            }
+        }
+    }
+    pos = save;
+    return 0;
+}
+int main()
+{
+    printf("Enter the string: ");
+    scanf("%99s", str);
+    pos = 0;
+    if (S() && str[pos] == '\0')
+        printf("String is accepted.\n");
+    else
+        printf("String is rejected.\n");
+
+    return 0;
+}
