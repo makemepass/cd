@@ -1,0 +1,17 @@
+//Lex program to recognize keyword//
+
+%{
+#include <stdio.h>
+%}
+letter  [a-zA-Z]
+digit   [0-9]
+key     (int|if|while|break)
+%%
+{key}                      { printf("%s is a keyword\n", yytext); }
+{letter}({letter}|{digit})* { printf("%s is an identifier\n", yytext); }
+%%
+int main()
+{
+    yylex();
+    return 0;
+}
