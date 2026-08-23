@@ -5,7 +5,7 @@
 %}
 letter  [a-zA-Z]
 digit   [0-9]
-key     (int|if|while|break)
+key     (int|if|while|break|for|else|char|float|double|void)
 %%
 {key}                      { printf("%s is a keyword\n", yytext); }
 {letter}({letter}|{digit})* { printf("%s is an identifier\n", yytext); }
