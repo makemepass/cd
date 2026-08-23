@@ -1,25 +1,17 @@
-//C program to recognize identifier or not//
+//Lex program to recognize identifier or not//
 
+%{
 #include <stdio.h>
-#include <ctype.h>
-int main() {
-    char str[100];
-    int i = 0, valid = 1;
-    printf("Enter an identifier: ");
-    scanf("%99s", str);
-    if (!(isalpha(str[0]) || str[0] == '_')) {
-        valid = 0;
-    } else {
-        for (i = 1; str[i] != '\0'; i++) {
-            if (!(isalnum(str[i]) || str[i] == '_')) {
-                valid = 0;
-                break;
-            }
-        }
-    }
-    if (valid)
-        printf("%s is a valid identifier.\n", str);
-    else
-        printf("%s is not a valid identifier.\n", str);
+%}
+letter  [a-zA-Z]
+digit   [0-9]
+key     (int|if|while|break)
+%%
+{key}                      { printf("%s is a keyword\n", yytext); }
+{letter}({letter}|{digit})* { printf("%s is an identifier\n", yytext); }
+%%
+int main()
+{
+    yylex();
     return 0;
 }
