@@ -1,60 +1,35 @@
 //lex1.y//
 %{
 #include <stdio.h>
-#include <stdlib.h>
-
 int yylex(void);
-int yyerror(char *s);
+int yyerror(char *s) { return 0; }
 %}
 
 %%
-
-S : 'i' E 't' S S1
-  | 'a'
-  ;
-
-S1 : 'c' S
-   |
-   ;
-
-E : 'b'
-  ;
-
+S: 'i' E 't' S A | 'a';
+A: 'c' S | ;
+E: 'b';
 %%
 
-int main()
-{
-    printf("Enter the string: ");
-
-    if (yyparse() == 0)
-        printf("Valid string\n");
-    else
-        printf("Invalid string\n");
-
+int main() {
+    printf("Enter string: ");
+    if (!yyparse()) printf("Valid string\n");
+    else printf("Invalid string\n");
     return 0;
 }
 
-int yyerror(char *s)
-{
-    return 0;
-}
 
 
 
 
 //lex2.l//
-%{
-#include <stdio.h>
-#include <stdlib.h>
-%}
-
+%%
+[ibtac]  return yytext[0];
+[ \t]    ;
+\n       return 0;
+.        return yytext[0];
 %%
 
-[ibtac]     { return yytext[0]; }
-[ \t]       { /* ignore spaces and tabs */ }
-\n          { return 0; }
-
-%%
 
 
 
