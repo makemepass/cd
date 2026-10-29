@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-
 int main() {
     char t1[10], t2[10], op[5];
-    scanf("%s %s %s", t1, op, t2);
+
+    printf("Enter operand1 type, operator, operand2 type (int/float): \n");
+    scanf("%9s %4s %9s", t1, op, t2);
 
     if ((!strcmp(t1,"int") || !strcmp(t1,"float")) &&
         (!strcmp(t2,"int") || !strcmp(t2,"float")))
