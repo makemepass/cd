@@ -2,25 +2,15 @@
 #include <string.h>
 
 int main() {
-    char type1[10], type2[10], op[5];
-    
-    printf("Enter type of operand 1 (int/float): ");
-    scanf("%s", type1);
-    
-    printf("Enter operator (+, -, *, /): ");
-    scanf("%s", op);
-    
-    printf("Enter type of operand 2 (int/float): ");
-    scanf("%s", type2);
+    char t1[10], t2[10], op[5];
+    scanf("%s %s %s", t1, op, t2);
 
-    // Basic type checking logic
-    if (strcmp(type1, "float") == 0 || strcmp(type2, "float") == 0) {
-        printf("Valid Expression. Resulting type: float\n");
-    } else if (strcmp(type1, "int") == 0 && strcmp(type2, "int") == 0) {
-        printf("Valid Expression. Resulting type: int\n");
-    } else {
+    if ((!strcmp(t1,"int") || !strcmp(t1,"float")) &&
+        (!strcmp(t2,"int") || !strcmp(t2,"float")))
+        printf("Valid. Result: %s\n",
+        (!strcmp(t1,"float") || !strcmp(t2,"float")) ? "float" : "int");
+    else
         printf("Type mismatch error!\n");
-    }
-    
+
     return 0;
 }
