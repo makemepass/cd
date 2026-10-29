@@ -1,64 +1,30 @@
+
 #include <stdio.h>
 #include <ctype.h>
 
-int count;
-char prods[10][10];
+char p[10][10];
+int n;
 
-void find_first(char *result, char c) {
-    int k = 0;
-    
-    // If the symbol is a terminal (lowercase, operator, or parenthesis)
+void first(char c) {
     if (!isupper(c)) {
-        result[k++] = c;
-        result[k] = '\0';
+        printf("%c ", c);
         return;
     }
-    
-    // Iterate through all productions to find matches
-    for (int i = 0; i < count; i++) {
-        if (prods[i][0] == c) {
-            // Skip left-recursion (e.g., E=E+T) to prevent infinite loops
-            if (prods[i][2] == c) {
-                continue; 
-            } 
-            // If the first symbol of RHS is a terminal
-            else if (!isupper(prods[i][2])) {
-                result[k++] = prods[i][2];
-            } 
-            // If it is a non-terminal, calculate recursively
-            else {
-                char temp[20];
-                find_first(temp, prods[i][2]);
-                for (int j = 0; temp[j] != '\0'; j++) {
-                    result[k++] = temp[j];
-                }
-            }
-        }
-    }
-    result[k] = '\0';
+    for (int i = 0; i < n; i++)
+        if (p[i][0] == c && p[i][2] != c)
+            first(p[i][2]);
 }
 
 int main() {
-    char c, result[20];
-    
+    char c;
     printf("Enter number of productions: ");
-    scanf("%d", &count);
-    
-    printf("Enter productions (Format A=B, use 'i' for id):\n");
-    for (int i = 0; i < count; i++) {
-        scanf("%s", prods[i]);
-    }
-    
-    printf("Enter non-terminal to find FIRST (E, T, or F): ");
+    scanf("%d", &n);
+    printf("Enter productions (e.g., E=E+T):\n");
+    for (int i = 0; i < n; i++) scanf("%s", p[i]);
+    printf("Enter non-terminal: ");
     scanf(" %c", &c);
-    
-    find_first(result, c);
-    
     printf("FIRST(%c) = { ", c);
-    for (int i = 0; result[i] != '\0'; i++) {
-        printf("%c ", result[i]);
-    }
+    first(c);
     printf("}\n");
-    
     return 0;
 }
