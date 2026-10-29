@@ -1,45 +1,29 @@
 #include <stdio.h>
-#include <string.h>
-
-char stack[10][20];
-int top = -1;
-
-void call_function(char *func_name) {
-    if (top >= 9) {
-        printf("Stack Overflow!\n");
-    } else {
-        strcpy(stack[++top], func_name);
-        printf("Called %s() -> Pushed Activation Record\n", func_name);
+#define MAX 5
+int stack[MAX], top = -1;
+void push(int val) {
+    if (top == MAX - 1) printf("Stack Overflow\n");
+    else stack[++top] = val;
+}
+void pop() {
+    if (top == -1) printf("Stack Underflow\n");
+    else printf("Popped: %d\n", stack[top--]);
+}
+void display() {
+    if (top == -1) printf("Stack Empty\n");
+    else {
+        printf("Stack: ");
+        for (int i = top; i >= 0; i--)
+            printf("%d ", stack[i]);
+        printf("\n");
     }
 }
-
-void return_function() {
-    if (top < 0) {
-        printf("Stack Underflow! No active functions.\n");
-    } else {
-        printf("Returned -> Popped Activation Record for %s()\n", stack[top--]);
-    }
-}
-
-void display_stack() {
-    printf("Current Stack: ");
-    if (top == -1) printf("Empty");
-    for (int i = 0; i <= top; i++) {
-        printf("[%s] ", stack[i]);
-    }
-    printf("\n\n");
-}
-
 int main() {
-    call_function("main");
-    display_stack();
-    
-    call_function("calculate_sum");
-    display_stack();
-    
-    return_function();  // calculate_sum returns
-    display_stack();
-    
-    return_function();  // main returns
+    push(10);
+    push(20);
+    push(30);
+    display();
+    pop();
+    display();
     return 0;
 }
