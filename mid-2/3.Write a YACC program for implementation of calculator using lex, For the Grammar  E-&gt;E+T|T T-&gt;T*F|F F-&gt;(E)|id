@@ -1,36 +1,23 @@
 //yacc with lex.y//
 %{
-/*E->E+E/E*E/(E)/DIGIT*/
+#include <stdio.h>
+int yylex();
+int yyerror(char *s);
 %}
-%union
-{
-int dval;
-}
+
+%union { int dval; }
 %token <dval> DIGIT
-%type <dval> expr
-%type <dval> term
-%type <dval> factor
+%type <dval> E T F
+
 %%
-line:expr '\n' {printf("%d",$1);exit(0);}
-;
-expr:expr '+' term {$$=$1+$3;}
-|term
-;
-term:term '*' factor {$$=$1*$3;}
-|factor
-;
-factor: '(' expr ')' {$$=$2;}
-|DIGIT
-;
+line: E '\n' { printf("Result = %d\n", $1); };
+E: E '+' T { $$ = $1 + $3; } | T;
+T: T '*' F { $$ = $1 * $3; } | F;
+F: '(' E ')' { $$ = $2; } | DIGIT;
 %%
-int main()
-{
-yyparse();
-}
-yyerror(char *s)
-{
-printf("%s",s);
-}
+
+int main() { return yyparse(); }
+int yyerror(char *s) { printf("Invalid expression\n"); return 0; }
 
 
 
@@ -38,13 +25,18 @@ printf("%s",s);
 
 //yacc with lex.l//
 %{
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "y.tab.h"
 %}
+
 %%
-[0-9]+ {yylval.dval=atoi(yytext); return DIGIT;}
-\n|. return yytext[0];
+[0-9]+ { yylval.dval = atoi(yytext); return DIGIT; }
+[ \t]  ;
+\n     return '\n';
+.      return yytext[0];
 %%
+
 
 
 //compilation steps//
