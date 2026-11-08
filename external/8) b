@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+char str[100];
+int pos = 0;
+int E(), Eprime(), T(), Tprime(), F();
+int E() {
+    return T() && Eprime();
+}
+int Eprime() {
+    if (str[pos] == '+') {
+        pos++;
+        return T() && Eprime();
+    }
+    return 1; // epsilon
+}
+int T() {
+    return F() && Tprime();
+}
+int Tprime() {
+    if (str[pos] == '*') {
+        pos++;
+        return F() && Tprime();
+    }
+    return 1; // epsilon
+}
+int F() {
+    if (str[pos] == 'i' && str[pos + 1] == 'd') {
+        pos += 2;
+        return 1;
+    }
+    if (str[pos] == '(') {
+        pos++;
+        if (E() && str[pos] == ')') {
+            pos++;
+            return 1;
+        }
+        return 0;
+    }
+    return 0;
+}
+int main() {
+    printf("Enter string (e.g., id+id*id): ");
+    scanf("%99s", str);
+    pos = 0;
+    if (E() && str[pos] == '\0')
+        printf("String is accepted.\n");
+    else
+        printf("String is rejected.\n");
+    return 0;
+}
