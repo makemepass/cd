@@ -1,0 +1,41 @@
+//lex1.y//
+%{
+#include <stdio.h>
+int yylex(void);
+int yyerror(char *s) { return 0; }
+%}
+
+%%
+S: 'i' E 't' S A | 'a';
+A: 'c' S | ;
+E: 'b';
+%%
+
+int main() {
+    printf("Enter string: ");
+    if (!yyparse()) printf("Valid string\n");
+    else printf("Invalid string\n");
+    return 0;
+}
+
+
+
+
+
+//lex2.l//
+%%
+[ibtac]  return yytext[0];
+[ \t]    ;
+\n       return 0;
+.        return yytext[0];
+%%
+
+
+
+
+
+//compilation steps//
+yacc -d lex1.y
+lex lex2.l
+cc y.tab.c lex.yy.c -o parser -lfl
+./parser
