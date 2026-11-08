@@ -1,0 +1,14 @@
+%{
+#include<stdio.h>
+%}
+vow [aeiouAEIOU]
+con [b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]
+%%
+{vow} { printf("%s is a vowel\n", yytext); }
+{con} { printf("%s is a consonant\n", yytext); }
+%%
+int main()
+{
+    yylex();
+    return 0;
+}
