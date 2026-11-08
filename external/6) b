@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <ctype.h>
+int n, k = 0;
+char prod[10][20], first[20];
+void add_first(char c) {
+    for (int i = 0; i < k; i++)
+        if (first[i] == c) return;
+    first[k++] = c;
+}
+void find_first(char c) {
+    if (!isupper(c)) {
+        add_first(c);
+        return;
+    }
+    
+    for (int i = 0; i < n; i++) {
+        if (prod[i][0] == c) {
+            if (prod[i][2] == c) continue; 
+            find_first(prod[i][2]);
+        }
+    }
+}
+
+int main() {
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+    printf("Enter productions (Format: E=E+T, use 'i' for id):\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%s", prod[i]);
+    }
+    char c;
+    printf("Enter Non-Terminal to find FIRST: ");
+    scanf(" %c", &c);
+    find_first(c);
+    printf("FIRST(%c) = { ", c);
+    for (int i = 0; i < k; i++) {
+        printf("%c ", first[i]);
+    }
+    printf("}\n");
+    return 0;
+}
