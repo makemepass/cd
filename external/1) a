@@ -1,0 +1,54 @@
+##expr.y##
+
+%{
+#include <stdio.h>
+int yylex();
+int yyerror(char *s) { return 0; }
+%}
+
+%token NUMBER
+%left '+' '-'
+%left '*' '/'
+
+%%
+E: E '+' E
+ | E '-' E
+ | E '*' E
+ | E '/' E
+ | '(' E ')'
+ | NUMBER
+ ;
+%%
+
+int main() {
+    printf("Enter expression: ");
+    if (!yyparse()) printf("Valid expression\n");
+    else printf("Invalid expression\n");
+    return 0;
+}
+
+
+
+
+
+##expr.l##
+
+%{
+#include "y.tab.h"
+%}
+
+%%
+[0-9]+  { return NUMBER; }
+[ \t]   ;
+\n      return 0;
+.       return yytext[0];
+%%
+
+
+
+
+##compiolation steps##
+yacc -d expr.y
+lex expr.l
+cc y.tab.c lex.yy.c -o expr -lfl
+./expr
