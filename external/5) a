@@ -1,0 +1,66 @@
+//bnf.y//
+%{
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node { char op; int val; struct Node *l, *r; } Node;
+Node *root;
+Node* mk(char op, int val, Node* l, Node* r) {
+    Node* n = (Node*)malloc(sizeof(Node));
+    n->op = op; n->val = val; n->l = l; n->r = r;
+    return n;
+}
+void pr(Node* n, int lvl) {
+    if (!n) return;
+    for (int i = 0; i < lvl; i++) printf("  ");
+    if (n->op == 0) printf("NUMBER: %d\n", n->val);
+    else {
+        printf("OPERATOR: %c\n", n->op);
+        pr(n->l, lvl + 1); pr(n->r, lvl + 1);
+    }
+}
+int yylex();
+void yyerror(char *s) { printf("Error: %s\n", s); }
+%}
+%union { int number; struct Node *node; }
+%token <number> NUMBER
+%type <node> expr term factor
+%left '+' '-'
+%left '*' '/'
+
+%%
+prog: expr { root = $1; } ;
+
+expr: expr '+' term { $$ = mk('+', 0, $1, $3); }
+    | expr '-' term { $$ = mk('-', 0, $1, $3); }
+    | term ;
+
+term: term '*' factor { $$ = mk('*', 0, $1, $3); }
+    | term '/' factor { $$ = mk('/', 0, $1, $3); }
+    | factor ;
+
+factor: NUMBER { $$ = mk(0, $1, NULL, NULL); }
+      | '(' expr ')' { $$ = $2; } ;
+%%
+
+int main() {
+    printf("Enter expression: ");
+    yyparse();
+    printf("\nAbstract Syntax Tree:\n");
+    pr(root, 0);
+    return 0;
+}
+
+
+
+//bnf.l//
+%{
+#include "y.tab.h"
+%}
+%option noyywrap
+
+%%
+[0-9]+  { yylval.number = atoi(yytext); return NUMBER; }
+[ \t]   ;
+\n      return 0;
+.       return yytext[0];
+%%
