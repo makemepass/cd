@@ -64,3 +64,11 @@ int main() {
 \n      return 0;
 .       return yytext[0];
 %%
+
+
+
+//compilation steps//
+yacc -d bnf.y
+lex bnf.l
+gcc lex.yy.c y.tab.c -o ast_gen
+./ast_gen
