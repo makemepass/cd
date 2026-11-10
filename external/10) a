@@ -23,3 +23,9 @@ int main() {
 int yywrap() {
     return 1;
 }
+
+
+//compilation steps//
+lex patterns.l
+gcc lex.yy.c -o patterns
+./patterns
