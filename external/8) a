@@ -17,3 +17,9 @@ void main()
 {
     yylex();
 }
+
+
+//compilation steps//
+lex operators.l
+gcc lex.yy.c -lfl -o operators
+./operators
