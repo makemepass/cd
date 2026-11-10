@@ -12,3 +12,10 @@ int main()
     yylex();
     return 0;
 }
+
+
+
+//compilation steps//
+lex vowels.l
+gcc lex.yy.c -lfl -o vowels
+./vowels
