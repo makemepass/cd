@@ -13,3 +13,9 @@ int main()
     yylex();
     return 0;
 }
+
+
+//compilation steps//
+lex keywords.l
+gcc lex.yy.c -lfl -o scanner
+./scanner
