@@ -18,3 +18,9 @@ int main()
     printf("Number of words = %d\n", words);
     return 0;
 }
+
+
+//compilation steps//
+lex wordcount.l
+gcc lex.yy.c -lfl -o wordcount
+./wordcount
